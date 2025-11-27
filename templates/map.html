@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Algomap2</title>
+    <script src="https://maps.googleapis.com/maps/api/js?key={{ google_maps_api_key }}"></script>
+</head>
+<body>
+    <h2>Algomap2 : Trajets depuis Rond-point Victoire</h2>
+    <div id="map" style="height:600px; width:100%;"></div>
+
+    <!-- Données JSON transmises depuis Django -->
+    <script id="arrets-data" type="application/json">
+        {{ arrets|safe }}
+    </script>
+    <script id="chemins-data" type="application/json">
+        {{ chemins|safe }}
+    </script>
+    <script id="chemin-principal-data" type="application/json">
+        {{ chemin_principal|safe }}
+    </script>
+
+    <script>
+        // Récupération des données depuis JSON
+        var arrets = JSON.parse(document.getElementById('arrets-data').textContent);
+        var chemins = JSON.parse(document.getElementById('chemins-data').textContent);
+        var chemin_principal = JSON.parse(document.getElementById('chemin-principal-data').textContent);
+
+        function initMap() {
+            // Initialisation de la carte centrée sur le premier arrêt
+            var map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 13,
+                center: { lat: arrets[0].lat, lng: arrets[0].lng }
+            });
+
+            var directionsService = new google.maps.DirectionsService();
+
+            // Fonction pour tracer un chemin
+            function tracerChemin(depart, arrivee, waypoints, color) {
+                var directionsRenderer = new google.maps.DirectionsRenderer({
+                    polylineOptions: { strokeColor: color, strokeWeight: 4 }
+                });
+                directionsRenderer.setMap(map);
+
+                directionsService.route({
+                    origin: depart,
+                    destination: arrivee,
+                    waypoints: waypoints.map(a => ({ location: a, stopover: true })),
+                    travelMode: 'DRIVING'
+                }, function(response, status) {
+                    if (status === 'OK') {
+                        directionsRenderer.setDirections(response);
+                    } else {
+                        console.error('Erreur Directions: ' + status);
+                    }
+                });
+            }
+
+            // Tracer tous les chemins possibles en bleu
+            chemins.forEach(function(chemin) {
+                tracerChemin(arrets[0].nom, arrets[arrets.length-1].nom, chemin, 'blue');
+            });
+
+            // Tracer le chemin principal en rouge
+            tracerChemin(arrets[0].nom, arrets[arrets.length-1].nom, chemin_principal, 'red');
+        }
+
+        initMap();
+    </script>
+</body>
+</html>
