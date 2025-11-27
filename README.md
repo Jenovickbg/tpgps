@@ -1,25 +1,46 @@
-# Algomap Django Demo
 
-This is a minimal Django project demonstration for Algomap.
-It includes a single app `mapapp` that serves a page with a Google Map
-centered on Rond-Point Victoire and an example marker.
+# 📘 Algomap
 
-**Important:** You provided a Google Maps API key to be placed in `.env`.
-Consider rotating/regenerating the API key after testing, and don't publish it publicly.
+Projet de cartographie permettant d’afficher les arrêts entre le Rond-Point Victoire et la Gare Centrale, avec possibilité de visualiser les arrêts sur une carte et de tracer le trajet.
 
-## Quick start
+## 👥 Auteurs
 
-1. Create a Python virtual environment:
+* ** Kabongo kalonji Jenovic **
+* ** kadima mbayi soleil**
+* ** Tshibangu bukasa daniel**
+
+## 🚀 Fonctionnalités
+
+* Affichage d’une carte interactive
+* Marqueurs des arrêts
+* Affichage du nom d’un arrêt au clic
+* Base pour tracer des trajets et calculer le chemin le plus court
+
+## 🛠️ Installation
+
+1. Créer un environnement virtuel :
+
+   ```bash
    python -m venv venv
-   source venv/bin/activate  # on Linux/macOS
-   venv\Scripts\activate   # on Windows
+   ```
+2. L’activer :
 
-2. Install requirements:
+   * Windows : `venv\Scripts\activate`
+   * Linux/Mac : `source venv/bin/activate`
+3. Installer les dépendances :
+
+   ```bash
    pip install -r requirements.txt
+   ```
+4. Lancer le projet :
 
-3. Run migrations and start the server:
-   python manage.py migrate
+   ```bash
    python manage.py runserver
+   ```
 
-4. Open http://127.0.0.1:8000/ to see the map.
+## 📍 Accès
+
+Ouvrir dans un navigateur :
+[http://127.0.0.1:8000/](http://127.0.0.1:8000/)
+
 
